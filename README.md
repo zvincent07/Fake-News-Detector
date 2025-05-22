@@ -52,14 +52,32 @@ git clone <repository-url>
 cd Fake-News-Detector
 ```
 
-2. Install dependencies:
+2. Create and activate a virtual environment:
+
+For Windows:
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+.\venv\Scripts\activate
+```
+
+For macOS/Linux:
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+```
+
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
-
-1. Start the application:
+3. Run the application:
 ```bash
 python app.py
 ```
@@ -74,40 +92,38 @@ http://localhost:5000
    - Click "Analyze" to get the prediction
    - View the results and confidence score
 
+4. Deactivate the virtual environment when you're done:
+```bash
+deactivate
+```
+
 ## Project Structure
 
 ```
 Fake News Detection/
 ├── app/
 │   ├── models/
-│   │   └── classifier.py      # ML model implementation
+│   │   └── classifier.py
 │   ├── static/
-│   │   ├── css/              # Stylesheets
-│   │   └── js/               # JavaScript files
-│   ├── templates/            # HTML templates
-│   ├── __init__.py          # Application factory
-│   └── routes.py            # Route definitions
+│   │   ├── css/
+│   │   └── js/
+│   ├── templates/
+│   ├── __init__.py
+│   └── routes.py
 ├── data/
 │   ├── True.csv             # Training data for real news
 │   └── Fake.csv             # Training data for fake news
+├── venv/                    # Virtual environment
 ├── requirements.txt         # Project dependencies
-├── app.py                  # Application entry point
+├── run.py                  # Application entry point
 └── README.md              # Project documentation
 ```
-
-## Dependencies
-
-- Flask 2.0.1 - Web framework
-- Werkzeug 2.0.3 - WSGI utilities
-- NumPy 1.24.3 - Numerical computing
-- Pandas 2.0.3 - Data manipulation
-- scikit-learn 1.3.0 - Machine learning
-- NLTK 3.6.3 - Natural language processing
 
 ## Requirements
 
 - Python 3.10 or higher
 - pip (Python package installer)
+- Virtual environment (recommended)
 - Modern web browser
 
 ## Development
@@ -121,6 +137,15 @@ To contribute to the project:
 
 ## Note
 
+- Make sure to activate the virtual environment every time you work on the project
 - The application uses a pre-trained model for predictions
 - Training data is included in the `data/` directory
 - For production deployment, ensure proper security measures are in place
+
+## License
+
+[Add your license information here]
+
+## Contact
+
+[Add your contact information here]
