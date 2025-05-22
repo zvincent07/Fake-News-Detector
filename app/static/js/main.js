@@ -5,6 +5,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moonIcon');
     const button = document.getElementById('analyzeBtn');
 
+    // Update copyright year
+    const currentYearElement = document.getElementById('currentYear');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+
     // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
