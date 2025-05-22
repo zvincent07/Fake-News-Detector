@@ -77,9 +77,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Run the application:
+## Usage
+
+1. Start the application:
 ```bash
-python app.py
+python run.py
 ```
 
 2. Open your web browser and navigate to:
@@ -103,13 +105,13 @@ deactivate
 Fake News Detection/
 ├── app/
 │   ├── models/
-│   │   └── classifier.py
+│   │   └── classifier.py      # ML model implementation
 │   ├── static/
-│   │   ├── css/
-│   │   └── js/
-│   ├── templates/
-│   ├── __init__.py
-│   └── routes.py
+│   │   ├── css/              # Stylesheets
+│   │   └── js/               # JavaScript files
+│   ├── templates/            # HTML templates
+│   ├── __init__.py          # Application factory
+│   └── routes.py            # Route definitions
 ├── data/
 │   ├── True.csv             # Training data for real news
 │   └── Fake.csv             # Training data for fake news
@@ -118,6 +120,15 @@ Fake News Detection/
 ├── run.py                  # Application entry point
 └── README.md              # Project documentation
 ```
+
+## Dependencies
+
+- Flask 2.0.1 - Web framework
+- Werkzeug 2.0.3 - WSGI utilities
+- NumPy 1.24.3 - Numerical computing
+- Pandas 2.0.3 - Data manipulation
+- scikit-learn 1.3.0 - Machine learning
+- NLTK 3.6.3 - Natural language processing
 
 ## Requirements
 
@@ -141,11 +152,3 @@ To contribute to the project:
 - The application uses a pre-trained model for predictions
 - Training data is included in the `data/` directory
 - For production deployment, ensure proper security measures are in place
-
-## License
-
-[Add your license information here]
-
-## Contact
-
-[Add your contact information here]
