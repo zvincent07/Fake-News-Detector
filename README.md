@@ -44,11 +44,14 @@ The application follows a modular architecture:
    - JavaScript functionality
    - UI components
 
+## Live Demo
+Check out the live application at: [https://fake-news-detector-lmf8.onrender.com/](https://fake-news-detector-lmf8.onrender.com/)
+
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/zvincent07/Fake-News-Detector
 cd Fake-News-Detector
 ```
 
