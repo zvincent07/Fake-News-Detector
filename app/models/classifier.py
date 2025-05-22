@@ -1,11 +1,16 @@
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import Pipeline
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import re
-import csv
+import os
 
 class NewsClassifier:
     def __init__(self):
+        self.pipeline = None
         self._download_nltk_data()
         self._train_model()
     
@@ -32,43 +37,42 @@ class NewsClassifier:
         return ' '.join(tokens)
     
     def _train_model(self):
-        # Initialize word frequency dictionaries
-        self.true_words = {}
-        self.fake_words = {}
+        # Load data in chunks
+        true_path = os.path.join('data', 'True.csv')
+        fake_path = os.path.join('data', 'Fake.csv')
         
-        # Process true news
-        with open('data/True.csv', 'r', encoding='utf-8') as f:
-            reader = csv.reader(f)
-            next(reader)  # Skip header
-            for row in reader:
-                if len(row) > 1:  # Make sure row has enough columns
-                    text = self._preprocess_text(row[1]) 
-                    for word in text.split():
-                        self.true_words[word] = self.true_words.get(word, 0) + 1
+        # Initialize empty lists to store processed data
+        processed_texts = []
+        labels = []
         
-        # Process fake news
-        with open('data/Fake.csv', 'r', encoding='utf-8') as f:
-            reader = csv.reader(f)
-            next(reader)  # Skip header
-            for row in reader:
-                if len(row) > 1:  # Make sure row has enough columns
-                    text = self._preprocess_text(row[1]) 
-                    for word in text.split():
-                        self.fake_words[word] = self.fake_words.get(word, 0) + 1
+        # Process true news in chunks
+        for chunk in pd.read_csv(true_path, chunksize=1000):
+            text_col = 'title' if 'title' in chunk.columns else 'text'
+            chunk[text_col] = chunk[text_col].astype(str).apply(self._preprocess_text)
+            processed_texts.extend(chunk[text_col].tolist())
+            labels.extend([1] * len(chunk))
+        
+        # Process fake news in chunks
+        for chunk in pd.read_csv(fake_path, chunksize=1000):
+            text_col = 'title' if 'title' in chunk.columns else 'text'
+            chunk[text_col] = chunk[text_col].astype(str).apply(self._preprocess_text)
+            processed_texts.extend(chunk[text_col].tolist())
+            labels.extend([0] * len(chunk))
+        
+        # Build pipeline
+        self.pipeline = Pipeline([
+            ('tfidf', TfidfVectorizer(max_features=5000)),
+            ('nb', MultinomialNB())
+        ])
+        
+        # Fit the model
+        self.pipeline.fit(processed_texts, labels)
     
     def predict(self, text):
         processed_text = self._preprocess_text(text)
-        words = processed_text.split()
-        
-        # Calculate scores
-        true_score = sum(self.true_words.get(word, 0) for word in words)
-        fake_score = sum(self.fake_words.get(word, 0) for word in words)
-        
-        # Make prediction
-        prediction = 'Real' if true_score > fake_score else 'Fake'
-        confidence = min(abs(true_score - fake_score) / 1000, 1.0)  # Normalize confidence
-        
+        pred = self.pipeline.predict([processed_text])[0]
+        prob = self.pipeline.predict_proba([processed_text])[0]
         return {
-            'prediction': prediction,
-            'confidence': confidence
+            'prediction': 'Real' if pred == 1 else 'Fake',
+            'confidence': float(max(prob))
         } 
