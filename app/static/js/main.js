@@ -111,4 +111,24 @@ async function analyzeHeadline() {
         button.classList.remove('loading');
         button.textContent = 'Analyze Content';
     }
+}
+
+// Clear content function
+function clearContent() {
+    const headline = document.getElementById('headline');
+    const resultDiv = document.getElementById('result');
+    const button = document.getElementById('analyzeBtn');
+    
+    // Clear the textarea
+    headline.value = '';
+    
+    // Hide the result section
+    resultDiv.classList.add('hidden');
+    
+    // Reset the analyze button
+    button.classList.remove('loading');
+    button.textContent = 'Analyze Content';
+    
+    // Focus back on the textarea
+    headline.focus();
 } 
