@@ -117,7 +117,7 @@ Fake News Detection/
 │   └── Fake.csv             # Training data for fake news
 ├── venv/                    # Virtual environment
 ├── requirements.txt         # Project dependencies
-├── run.py                  # Application entry point
+├── app.py                  # Application entry point
 └── README.md              # Project documentation
 ```
 
